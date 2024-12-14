@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import React, { useContext } from "react";
 import Day from "./Day";
-import GlobalContext from "../context/GlobalContext";
 
 // Use PascalCase for interfaces
 interface MonthsProps {
