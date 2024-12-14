@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
 
 const EventHandler = () => {
   const { daySelected, events, setEvents }: any = useContext(GlobalContext);
 
-  // State to track editing
+  const [searchKeyword, setSearchKeyword] = useState<string>(""); // State for keyword
   const [editingEventId, setEditingEventId] = useState<number | null>(null);
   const [editedEvent, setEditedEvent] = useState<any>({
     eventName: "",
@@ -16,6 +16,11 @@ const EventHandler = () => {
   // Filter events for the selected day
   const eventsForDay = events.filter(
     (event: any) => event.date === daySelected.format("DD-MM-YY")
+  );
+
+  // Apply keyword filter
+  const filteredEvents = eventsForDay.filter((event: any) =>
+    event.eventName.toLowerCase().includes(searchKeyword.toLowerCase())
   );
 
   // Save Edited Event
@@ -40,8 +45,24 @@ const EventHandler = () => {
       <h2 className="text-lg font-bold mb-2">
         Events for {daySelected.format("DD MMM YYYY")}
       </h2>
-      {eventsForDay.length > 0 ? (
-        eventsForDay.map((event: any) => (
+      {/* Search Input */}
+      <div className="flex justify-center items-center">
+        <input
+          type="text"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+          className="w-full border rounded p-2 mb-4 border-black"
+          placeholder="Search events by keyword"
+        />{" "}
+        <div
+          className="material-icons-outlined text-gray-600 cursor-pointer mb-4 p-1 ml-2 border-black border"
+          title="Search events"
+        >
+          search
+        </div>
+      </div>
+      {filteredEvents.length > 0 ? (
+        filteredEvents.map((event: any) => (
           <div
             key={event.id}
             className="bg-blue-100 text-blue-600 p-2 mb-2 rounded shadow"
@@ -117,13 +138,13 @@ const EventHandler = () => {
                     setEditingEventId(event.id);
                     setEditedEvent(event); // Pre-fill edit form
                   }}
-                  className="text-green-600 text-sm underline mr-2"
+                  className="text-blue-500 text-xs underline mr-2"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(event.id)}
-                  className="text-red-500 text-sm underline"
+                  className="text-red-500 text-xs underline"
                 >
                   Delete
                 </button>
@@ -132,7 +153,7 @@ const EventHandler = () => {
           </div>
         ))
       ) : (
-        <p className="text-gray-500">No events for this day</p>
+        <p className="text-gray-500">No events match your search.</p>
       )}
     </div>
   );
