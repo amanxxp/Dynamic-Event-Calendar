@@ -1,10 +1,9 @@
 import dayjs from "dayjs";
-import React, { useContext } from "react";
+import React from "react";
 import Day from "./Day";
 
-// Use PascalCase for interfaces
 interface MonthsProps {
-  month: dayjs.Dayjs[][]; // Assuming month is a 2D array of dayjs objects
+  month: dayjs.Dayjs[][];
 }
 
 const Month: React.FC<MonthsProps> = ({ month }) => {

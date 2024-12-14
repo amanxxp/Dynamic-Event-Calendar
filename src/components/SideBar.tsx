@@ -1,12 +1,13 @@
-import CreateEventButton from './CreateEventButton'
-import SmallCalendar from './SmallCalendar'
+import CreateEventButton from "./CreateEventButton";
+import EventHandler from "./EventHandler";
 const SideBar = () => {
   return (
-    <aside className='border p-5 w-64'>
-      <CreateEventButton/>
-      <SmallCalendar/>
+    <aside className="border p-5 w-64">
+      <CreateEventButton />
+      <div className="mt-8"></div>
+      <EventHandler />
     </aside>
-  )
-}
+  );
+};
 
-export default SideBar
+export default SideBar;

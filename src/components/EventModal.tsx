@@ -77,7 +77,7 @@ const EventModal = () => {
           <button
             type="button"
             onClick={handleSaveEvent}
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="bg-black text-white px-4 py-2 rounded-xl"
           >
             Save Event
           </button>
