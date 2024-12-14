@@ -40,6 +40,20 @@ const EventHandler = () => {
     localStorage.setItem("events", JSON.stringify(updatedEvents)); // Update local storage
   };
 
+  // Function to determine event color based on category
+  const getEventColor = (category: string) => {
+    switch (category) {
+      case "work":
+        return "bg-red-300 text-red-700"; // Red for work
+      case "personal":
+        return "bg-blue-200 text-blue-700"; // Blue for personal
+      case "others":
+        return "bg-green-100 text-green-700"; // Green for others
+      default:
+        return "bg-blue-100 text-gray-700"; // Default color
+    }
+  };
+
   return (
     <div>
       <h2 className="text-lg font-bold mb-2">
@@ -53,7 +67,7 @@ const EventHandler = () => {
           onChange={(e) => setSearchKeyword(e.target.value)}
           className="w-full border rounded p-2 mb-4 border-black"
           placeholder="Search events by keyword"
-        />{" "}
+        />
         <div
           className="material-icons-outlined text-gray-600 cursor-pointer mb-4 p-1 ml-2 border-black border"
           title="Search events"
@@ -65,7 +79,9 @@ const EventHandler = () => {
         filteredEvents.map((event: any) => (
           <div
             key={event.id}
-            className="bg-blue-100 text-blue-600 p-2 mb-2 rounded shadow"
+            className={`p-2 mb-2 rounded shadow ${getEventColor(
+              event.category
+            )}`}
           >
             {editingEventId === event.id ? (
               // Edit Form
@@ -128,7 +144,15 @@ const EventHandler = () => {
             ) : (
               // Display Event Details
               <div>
-                <h3 className="text-md font-semibold">{event.eventName}</h3>
+                <div className="flex items-center">
+                  <h3 className="text-md font-semibold">{event.eventName}</h3>
+                  {/* Category Color Indicator */}
+                  <div
+                    className={`w-3 h-3 rounded-full ml-2 ${getEventColor(
+                      event.category
+                    )}`}
+                  />
+                </div>
                 <p className="text-sm">
                   {event.startTime} - {event.endTime}
                 </p>
@@ -138,13 +162,13 @@ const EventHandler = () => {
                     setEditingEventId(event.id);
                     setEditedEvent(event); // Pre-fill edit form
                   }}
-                  className="text-blue-500 text-xs underline mr-2"
+                  className="text-green-500 font-bold text-xs underline mr-2"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(event.id)}
-                  className="text-red-500 text-xs underline"
+                  className="text-red-500 font-bold text-xs underline"
                 >
                   Delete
                 </button>
